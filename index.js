@@ -7,16 +7,11 @@ app.use(cors());
 require('dotenv').config();
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(
-    process.env.MYSQL_DATABASE,
-    process.env.MYSQLUSER,
-    process.env.MYSQLPASSWORD,
-    {
-      host: process.env.MYSQLHOST,
-      dialect: 'mysql',
-      port: process.env.MYSQLPORT
-    }
-  );
+const sequelize = new Sequelize(process.env.MYSQL_URL, {
+    dialect: 'mysql',
+    protocol: 'mysql',
+    logging: false,
+  });
   
 
 sequelize.authenticate()

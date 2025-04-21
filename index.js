@@ -1,43 +1,67 @@
-const express = require(`express`)
+const express = require(`express`);
 const cors = require('cors');
-const app = express()
+const mysql = require('mysql2');
+
+const app = express();
 app.use(cors());
+require('dotenv').config();
+const Sequelize = require('sequelize');
+
+const sequelize = new Sequelize(
+    process.env.MYSQL_DATABASE,
+    process.env.MYSQLUSER,
+    process.env.MYSQLPASSWORD,
+    {
+      host: process.env.MYSQLHOST,
+      dialect: 'mysql',
+      port: process.env.MYSQLPORT
+    }
+  );
+  
+
+sequelize.authenticate()
+    .then(() => {
+        console.log('✅ Connected to MySQL Database');
+    })
+    .catch(err => {
+        console.error('❌ DB Connection Error:', err);
+    });
 
 
-//auth
-const authRoute = require(`./routes/auth-route`)
-app.use(`/login`, authRoute)
+// auth
+const authRoute = require(`./routes/auth-route`);
+app.use(`/login`, authRoute);
 
-//user
-const userRoute = require(`./routes/user-route`)
-app.use(`/user`, userRoute)
+// user
+const userRoute = require(`./routes/user-route`);
+app.use(`/user`, userRoute);
 
-//bahasa
-const bahasaRoute = require(`./routes/bahasa-route`)
-app.use(`/bahasa`, bahasaRoute)
+// bahasa
+const bahasaRoute = require(`./routes/bahasa-route`);
+app.use(`/bahasa`, bahasaRoute);
 
-//cerpen
-const cerpenRoute = require(`./routes/cerpen-route`)
-app.use(`/cerpen`, cerpenRoute)
+// cerpen
+const cerpenRoute = require(`./routes/cerpen-route`);
+app.use(`/cerpen`, cerpenRoute);
 
-//kelas
-const kelasRoute = require(`./routes/kelas-route`)
-app.use(`/kelas`, kelasRoute)
+// kelas
+const kelasRoute = require(`./routes/kelas-route`);
+app.use(`/kelas`, kelasRoute);
 
-//modul
-const modulRoute = require(`./routes/modul-route`)
-app.use(`/modul`, modulRoute)
+// modul
+const modulRoute = require(`./routes/modul-route`);
+app.use(`/modul`, modulRoute);
 
-//progress
-const progressRoute = require(`./routes/progress-route`)
-app.use(`/progress`, progressRoute)
+// progress
+const progressRoute = require(`./routes/progress-route`);
+app.use(`/progress`, progressRoute);
 
-//testi
-const testiRoute = require(`./routes/testi-route`)
-app.use(`/testi`, testiRoute)
+// testi
+const testiRoute = require(`./routes/testi-route`);
+app.use(`/testi`, testiRoute);
 
-//port
-const PORT = process.env.PORT || 8080
+// port
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`Server of Nutur run on port ${PORT}`)
-})
+    console.log(`🚀 Server of Nutur run on port ${PORT}`);
+});
